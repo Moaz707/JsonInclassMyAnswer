@@ -13,10 +13,10 @@ class DataViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public void bind(Model model) {
+    public void bind(Model model, int position) {
 
         TextView dataView = itemView.findViewById(R.id.data_text);
-        dataView.setText(model.getMessage());
+        dataView.setText(position+": "+model.getMessage());
 
 
     }

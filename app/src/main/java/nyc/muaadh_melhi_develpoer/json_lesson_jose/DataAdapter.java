@@ -28,7 +28,7 @@ class DataAdapter  extends RecyclerView.Adapter<DataViewHolder>{
 
     @Override
     public void onBindViewHolder(DataViewHolder holder, int position) {
-        holder.bind(list.get(position));
+        holder.bind(list.get(position),position);
 
     }
 
