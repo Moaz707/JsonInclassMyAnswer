@@ -22,30 +22,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String jsonString = Constants.input;
-        List<Model> dataList = new ArrayList<>();
-        try {
-            JSONObject jsonObject = new JSONObject(jsonString);
-            JSONArray messageArray = jsonObject.getJSONArray("message");
 
-            for (int i = 0; i < messageArray.length(); i++) {
-                Model model = new Model();
-                String m = (String) messageArray.get(i);
-                model.setMessage(m);
-                //add the model Object to the datalist
-                dataList.add(model);
+
+        try {
+            JSONObject jsonObject = new JSONObject(Constants.input);
+            JSONObject messageAObj = jsonObject.getJSONObject("message");
+            JSONArray array = messageAObj.names();
+            List<Breed> breeds = new ArrayList<>();
+
+            for (int i = 0; i < array.length(); i++) {
+                Breed breed = new Breed(array.get(i).toString());
+                breeds.add(breed);
+                JSONArray classesArray = (JSONArray) messageAObj.get(breed.getName());
+
+                String[] classesNames = new String[classesArray.length()];
+
+                for (int j = 0; j < classesArray.length(); j++) {
+                    classesNames[j] = classesArray.get(j).toString();
+                }
+                breed.setClasses(classesNames);
             }
-            Log.d(TAG, "datalistSize: "+dataList.size());
+
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        RecyclerView recyclerView=findViewById(R.id.recycle01);
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(getApplicationContext(),3,GridLayoutManager.VERTICAL,false);
-        DataAdapter adapter=new DataAdapter(dataList);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setAdapter(adapter);
 
 
     }
